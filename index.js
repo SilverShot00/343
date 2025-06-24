@@ -62,10 +62,10 @@ client.once('ready', async () => {
 });
 
 client.on('messageCreate', async (message) => {
-    if (!client.isReady?.() || !client.token) {
-        logger.warn('Client not fully ready. Ignoring message.');
-        return;
-    }
+if (!client.isReady?.() || !client.token) {
+    logger.warn('Client not fully ready. Ignoring message.');
+    return;
+}
 
     if (message.author.bot) return;
     if (!message.content.startsWith('!')) return;
