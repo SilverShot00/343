@@ -196,6 +196,12 @@ client.login(DISCORD_TOKEN).catch((error) => {
     process.exit(1);
 });
 
+client.login(DISCORD_TOKEN).then(() => {
+  console.log('Client logged in, token set:', !!client.token);
+}).catch((error) => {
+  logger.error('Failed to login to Discord:', error);
+  process.exit(1);
+});
 client.once('ready', async () => {
 
    initializeScheduler(client);
