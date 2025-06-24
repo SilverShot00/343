@@ -247,7 +247,11 @@ const server = http.createServer(async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = secrets.PORT;
+server.listen(PORT, '0.0.0.0', () => {
+    logger.info(`Health check server running on port ${PORT}`);
+});
+
 
 // Login to Discord
 const DISCORD_TOKEN = secrets.DISCORD_TOKEN;
