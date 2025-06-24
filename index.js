@@ -62,8 +62,8 @@ client.once('ready', async () => {
 });
 
 client.on('messageCreate', async (message) => {
-    if (!client.isReady()) {
-        logger.warn('Client not ready yet, skipping message');
+    if (!client.isReady?.() || !client.token) {
+        logger.warn('Client not fully ready. Ignoring message.');
         return;
     }
 
@@ -144,8 +144,8 @@ client.on('messageCreate', async (message) => {
         logger.error('Error handling message:', error?.stack || error?.message || error);
         try {
             await message.reply('❌ An error occurred while processing your command. Please try again.');
-        } catch (e) {
-            logger.error('Error sending error reply:', e?.stack || e?.message || e);
+        } catch (replyErr) {
+            logger.error('Error sending error reply:', replyErr?.stack || replyErr?.message || replyErr);
         }
     }
 });
@@ -203,3 +203,4 @@ client.login(DISCORD_TOKEN).catch((error) => {
     logger.error('Failed to login to Discord:', error?.stack || error?.message || error);
     process.exit(1);
 });
+
