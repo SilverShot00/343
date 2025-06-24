@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder, ActivityType } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, ActivityType, Partials } = require('discord.js');
 const { handleStreamerCommands } = require('./commands/streamers');
 const { handleChannelCommands } = require('./commands/channels');
 const { handleMessageCommands } = require('./commands/messages');
@@ -17,7 +17,8 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent
-    ]
+    ],
+    partials: [Partials.Channel]
 });
 
 client.once('ready', async () => {
@@ -40,13 +41,6 @@ client.once('ready', async () => {
 
     if (botConfig.status.url && activityType === ActivityType.Streaming) {
         activity.url = botConfig.status.url;
-    }
-
-    if (botConfig.status.image.enabled && botConfig.status.image.url) {
-        activity.assets = {
-            large_image: botConfig.status.image.url,
-            large_text: botConfig.status.activity
-        };
     }
 
     client.user.setPresence({
