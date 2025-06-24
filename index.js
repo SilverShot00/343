@@ -195,3 +195,8 @@ client.login(DISCORD_TOKEN).catch((error) => {
     logger.error('Failed to login to Discord:', error?.stack || error?.message || error);
     process.exit(1);
 });
+
+client.once('ready', async () => {
+
+   initializeScheduler(client);
+});
