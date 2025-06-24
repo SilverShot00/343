@@ -62,6 +62,11 @@ client.once('ready', async () => {
 });
 
 client.on('messageCreate', async (message) => {
+    if (!client.isReady()) {
+        logger.warn('Client not ready yet, skipping message');
+        return;
+    }
+
     if (message.author.bot) return;
     if (!message.content.startsWith('!')) return;
 
@@ -137,7 +142,11 @@ client.on('messageCreate', async (message) => {
 
     } catch (error) {
         logger.error('Error handling message:', error?.stack || error?.message || error);
-        await message.reply('❌ An error occurred while processing your command. Please try again.');
+        try {
+            await message.reply('❌ An error occurred while processing your command. Please try again.');
+        } catch (e) {
+            logger.error('Error sending error reply:', e?.stack || e?.message || e);
+        }
     }
 });
 
@@ -193,15 +202,4 @@ if (!DISCORD_TOKEN) {
 client.login(DISCORD_TOKEN).catch((error) => {
     logger.error('Failed to login to Discord:', error?.stack || error?.message || error);
     process.exit(1);
-});
-
-client.login(DISCORD_TOKEN).then(() => {
-  console.log('Client logged in, token set:', !!client.token);
-}).catch((error) => {
-  logger.error('Failed to login to Discord:', error);
-  process.exit(1);
-});
-client.once('ready', async () => {
-
-   initializeScheduler(client);
 });
