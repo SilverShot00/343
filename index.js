@@ -8,7 +8,6 @@ const { logger } = require('./utils/logger');
 const { getDatabaseStats } = require('./services/database');
 const { initializeStorage } = require('./server/storageFactory');
 const botConfig = require('./config/botConfig');
-const keepalive = require('./keep_alive.js');
 const secrets = require('./infos.js');
 const http = require('http');
 
